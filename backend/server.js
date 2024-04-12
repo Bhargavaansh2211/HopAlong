@@ -3,7 +3,10 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
-const errorHandler = require('./middleware/errorHandler');
+const errorHandler = require('./middleware/errorHandler.js');
+const verifyJWT = require('./middleware/verifyJWT.js');
+const cookieParser = require('cookie-parser');
+const credentials = require('./middleware/credentials');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
 const PORT = process.env.API_PORT;
@@ -22,6 +25,15 @@ app.use(express.json());
 // Cookie parser middleware
 app.use(cookieParser());
 
+// Routes for authentication
+app.use('/auth/register', require('./routes/auth/register'));
+app.use('/auth/login', require('./routes/auth/login'));
+app.use('/auth/refresh', require('./routes/auth/refresh'));
+app.use('/auth/logout', require('./routes/auth/logout'));
+
+
+// Verify JWT for all routes below this line (private routes)
+app.use(verifyJWT);
 // Error handling middleware
 app.use(errorHandler);
 
