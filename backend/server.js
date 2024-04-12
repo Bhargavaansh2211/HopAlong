@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
-const errorHandler = require('./middleware/errorHandler.js');
 const verifyJWT = require('./middleware/verifyJWT.js');
 const cookieParser = require('cookie-parser');
 const credentials = require('./middleware/credentials');
@@ -31,11 +30,15 @@ app.use('/auth/login', require('./routes/auth/login'));
 app.use('/auth/refresh', require('./routes/auth/refresh'));
 app.use('/auth/logout', require('./routes/auth/logout'));
 
+// Public Routes
+app.use('/api/routes', require('./routes/api/routes'));
+app.use('/api/getUser', require('./routes/api/getUser'));
 
 // Verify JWT for all routes below this line (private routes)
 app.use(verifyJWT);
-// Error handling middleware
-app.use(errorHandler);
+
+app.use('/api/trips', require('./routes/api/trips'));
+app.use('/api/users', require('./routes/api/users'));
 
 // Start the server
 mongoose.connection.once('open', () => {
