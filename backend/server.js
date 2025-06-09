@@ -8,8 +8,7 @@ const cookieParser = require('cookie-parser');
 const credentials = require('./middleware/credentials');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
-const PORT = process.env.API_PORT;
-
+const PORT = process.env.PORT;
 // Connect to the database
 connectDB();
 
