@@ -1,6 +1,7 @@
 node_modules
 logs
 .env
+dist/
 
 .vscode/*
 !.vscode/extensions.json

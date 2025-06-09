@@ -39,6 +39,17 @@ app.use(verifyJWT);
 app.use('/api/trips', require('./routes/api/trips'));
 app.use('/api/users', require('./routes/api/users'));
 
+const path = require('path');
+
+// Serve React dist folder
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// For any other route, serve index.html from React
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+
 // Start the server
 mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB');
